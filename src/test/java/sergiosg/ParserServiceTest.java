@@ -14,21 +14,26 @@ public class ParserServiceTest {
 
     ParserService parserService = new ParserService();
 
-    private static String BAD_BOYS_HTML;
+    private static String BAD_BOYS_MOVIE_HTML;
 
 
     @BeforeAll
     static void beforeAll() throws IOException {
-        BAD_BOYS_HTML = Files.readString(Paths.get("film103813.html"));
+        BAD_BOYS_MOVIE_HTML = Files.readString(
+                Paths.get(ParserServiceTest.class.getClassLoader()
+                        .getResource("film103813.html")
+                        .getPath()));
     }
 
     @Test
     public void shouldParseMovie(){
-        System.out.println(BAD_BOYS_HTML);
 
-        Movie movie = parserService.parse(BAD_BOYS_HTML);
+        Movie movie = parserService.parse(BAD_BOYS_MOVIE_HTML);
 
         assertThat(movie).isNotNull();
+        assertThat(movie.getTitle()).isEqualTo("Bad Boys for Life");
+        assertThat(movie.getRating()).isEqualTo(6.2f);
+        assertThat(movie.getVotes()).isEqualTo(485);
 
     }
 }
