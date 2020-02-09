@@ -1,0 +1,58 @@
+dist: trusty
+
+language: java
+
+branches:
+  only:
+    - master
+
+install:
+  - sudo start-docker-daemon
+
+jdk:
+  - oraclejdk8
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.m2
+    - $HOME/.gradle/caches
+    - $HOME/.gradle/wrapper
+
+stages:
+  - name: Build
+  - name: Docker
+    if: type != pull_request
+  - name: Artifacts
+    if: type != pull_request
+
+
+jobs:
+  include:
+    - stage: Build
+      script:
+        - ./gradlew build --stacktrace
+
+    - stage: Docker
+      script:
+        - ./gradlew installDist --stacktrace
+        - deploy_docker
+
+    - stage: Artifacts
+      description: Upload artifacts so FIAAS can use those files.
+      script:
+        - source <(curl --user "${ARTIFACTORY_USER}:$ARTIFACTORY_PWD" -s https://artifactory.mpi-internal.com/artifactory/generic-local/scmspain/devops-common--global-account-platform/enablers_travis_helpers.bash)
+        - upload_schip_artifacts microij || travis_terminate 1
+
+notifications:
+  webhooks:
+    - https://devhose.ep.schibsted.io/devhose/travis
+
+after_failure:
+  - reports-publisher
+
+after_success:
+  - reports-publisher
