@@ -1,5 +1,5 @@
 os: linux
-dist: trusty
+dist: bionic
 jdk: oraclejdk11
 language: java
 
@@ -19,4 +19,4 @@ cache:
     - $HOME/.gradle/wrapper
 
 script:
-  - ./gradlew build --scan -s
+  - ./gradlew build --stacktrace
