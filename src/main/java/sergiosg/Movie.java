@@ -29,4 +29,5 @@ public class Movie {
     public void setVotes(int votes) {
         this.votes = votes;
     }
+
 }

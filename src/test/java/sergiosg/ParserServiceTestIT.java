@@ -7,10 +7,11 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 
-public class ParserServiceTest {
+public class ParserServiceTestIT {
 
     ParserService parserService = new ParserService();
 
@@ -20,15 +21,21 @@ public class ParserServiceTest {
     @BeforeAll
     static void beforeAll() throws IOException {
         BAD_BOYS_MOVIE_HTML = Files.readString(
-                Paths.get(ParserServiceTest.class.getClassLoader()
+                Paths.get(ParserServiceTestIT.class.getClassLoader()
                         .getResource("film103813.html")
                         .getPath()));
+    }
+
+    @Test
+    public void shouldParseFolder() throws NoSuchFileException {
+        parserService.parseFolder("src/test/resources/");
     }
 
     @Test
     public void shouldParseMovie(){
 
         Movie movie = parserService.parse(BAD_BOYS_MOVIE_HTML);
+
 
         assertThat(movie).isNotNull();
         assertThat(movie.getTitle()).isEqualTo("Bad Boys for Life");
