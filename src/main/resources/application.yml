@@ -1,0 +1,7 @@
+logging.level:
+  root: INFO
+  org.springframework: INFO
+  sergiosg: DEBUG
+  org.hibernate.SQL: DEBUG
+
+logging.pattern.console: "%d{yyyy-MM-dd} | %d{HH:mm:ss.SSS}| %5p | %-40.40logger{40} | %m%n"
