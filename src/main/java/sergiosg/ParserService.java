@@ -4,6 +4,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -11,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -20,6 +21,8 @@ public class ParserService {
 
     private static final Logger logger = LoggerFactory.getLogger(ParserService.class);
 
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     public void parseFolder( String folder ) throws NoSuchFileException {
 

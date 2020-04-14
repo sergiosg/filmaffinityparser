@@ -36,7 +36,6 @@ class ParserServiceTestIT {
 
         Movie movie = parserService.parse(BAD_BOYS_MOVIE_HTML);
 
-
         assertThat(movie).isNotNull();
         assertThat(movie.getTitle()).isEqualTo("Bad Boys for Life");
         assertThat(movie.getRating()).isEqualTo(6.2f);
