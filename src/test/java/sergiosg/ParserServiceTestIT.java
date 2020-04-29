@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,9 +13,15 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 
+<<<<<<< HEAD
 class ParserServiceTestIT {
+=======
+@SpringBootTest
+public class ParserServiceTestIT {
+>>>>>>> :sparkles: Send processed movies to queue
 
-    ParserService parserService = new ParserService();
+    @Autowired
+    ParserService parserService;
 
     private static String BAD_BOYS_MOVIE_HTML;
 
@@ -34,7 +42,11 @@ class ParserServiceTestIT {
     @Test
     void shouldParseMovie(){
 
+<<<<<<< HEAD
         Movie movie = parserService.parse(BAD_BOYS_MOVIE_HTML);
+=======
+        Movie movie = parserService.toMovie(BAD_BOYS_MOVIE_HTML);
+>>>>>>> :sparkles: Send processed movies to queue
 
         assertThat(movie).isNotNull();
         assertThat(movie.getTitle()).isEqualTo("Bad Boys for Life");

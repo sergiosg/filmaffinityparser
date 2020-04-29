@@ -1,5 +1,11 @@
 package sergiosg;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -14,6 +20,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
 @Service
@@ -22,7 +29,10 @@ public class ParserService {
     private static final Logger logger = LoggerFactory.getLogger(ParserService.class);
 
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private Producer<Long, String> producer;
+
+    @Autowired
+    private ObjectMapper mapper;
 
     public void parseFolder( String folder ) throws NoSuchFileException {
 
@@ -34,6 +44,7 @@ public class ParserService {
                 .filter(Files::isRegularFile)
                 .filter(path ->
                         path.getFileName().toString().startsWith("film") && path.getFileName().toString().endsWith(".html"))
+<<<<<<< HEAD
                 .map(p -> {
                     try {
                         return Optional.of(Files.readString(p));
@@ -43,6 +54,10 @@ public class ParserService {
                     }
                 })
                 .map(movie ->  parse(((Optional<String>)movie).get()))
+=======
+                .map(this::getFileContent)
+                .map(this::toMovie)
+>>>>>>> :sparkles: Send processed movies to queue
                 .forEach(this::send);
         }
         catch (NoSuchFileException fe){
@@ -52,12 +67,10 @@ public class ParserService {
         }
     }
 
-
-    protected Movie parse(String movie) {
-
+    protected Movie toMovie(String fileContent) {
 
         Document document = Jsoup
-                .parse(movie);
+                .parse(fileContent);
 
         Movie result = new Movie();
 
@@ -81,6 +94,38 @@ public class ParserService {
     }
 
     protected void send(Movie movie){
+<<<<<<< HEAD
         logger.info("Sending to queue movie: {} ", movie.getTitle());
+=======
+
+        logger.info("Sending movie to queue. Title: " + movie.getTitle());
+
+        final ProducerRecord<Long, String> record;
+        try {
+            record = new ProducerRecord(KafkaProducerConfig.TOPIC, mapper.writeValueAsString(movie));
+            RecordMetadata metadata = producer.send(record).get();
+            logger.info("Record sent with title " + movie.getTitle() +" to partition " + metadata.partition()
+                    + " with offset " + metadata.offset());
+        } catch (ExecutionException e) {
+            logger.error("Error in sending record", e);
+        } catch (InterruptedException e) {
+            logger.error("Error in sending record", e);
+        } catch (JsonProcessingException e) {
+            logger.error("Movie can not be serialized", e);
+        }
+    }
+
+    private Optional<String> getFileContent(Path p) {
+        try {
+            return Optional.of(Files.readString(p));
+        } catch (IOException e) {
+            logger.error("Error reading file: " + p);
+            return Optional.empty();
+        }
+    }
+
+    private Movie toMovie(Optional<String> fileContent){
+        return toMovie(fileContent.get());
+>>>>>>> :sparkles: Send processed movies to queue
     }
 }
