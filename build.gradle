@@ -4,6 +4,7 @@ plugins {
     id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'distribution'
     id 'jacoco'
+    id "org.sonarqube" version "2.7"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -68,6 +69,13 @@ jacocoTestCoverageVerification {
             }
         }
 
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.exclusions", "src/test/resources/*.html"
     }
 }
 
