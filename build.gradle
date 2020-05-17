@@ -3,6 +3,7 @@ plugins {
     id 'idea' // optional (to generate IntelliJ IDEA project files)
     id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'distribution'
+    id 'jacoco'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -14,6 +15,11 @@ sourceCompatibility = 1.11
 
 repositories {
     mavenCentral()
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/customJacocoReportDir")
 }
 
 dependencies {
@@ -40,8 +46,17 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
+    finalizedBy jacocoTestReport
 }
 
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
 
 
 
