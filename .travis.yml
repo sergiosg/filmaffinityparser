@@ -2,21 +2,26 @@ os: linux
 dist: bionic
 jdk: oraclejdk11
 language: java
-
 branches:
   only:
-    - master
-
-
+  - master
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.m2
-    - $HOME/.gradle/caches
-    - $HOME/.gradle/wrapper
-
+  - "$HOME/.m2"
+  - "$HOME/.gradle/caches"
+  - "$HOME/.gradle/wrapper"
 script:
-  - ./gradlew test build --stacktrace
+- "./gradlew test sonarqube build --stacktrace"
+
+addons:
+  sonarcloud:
+    organization: "sergiosg"
+    token:
+      secure: "**************************" # encrypted value of your token
+dd:
+  secure: tg3CtWa1wsj3gBva8ALXzvkexO62IQAitM6fce2z7z/ikuSrsG9xCDQk7dgsDwcTiksWjvTS2H4swjSkAJclCkcvore/H1QXQLJNinBjCrR7K5EKBEv3V0bfRs9Ak3sjgY8rwU75hkFTCdsGjq/X8AYbgX+KArKFNHrM9oFUgkvxFAC7KPNPgivG1KBa1mRYfgADb2DPkae35Lz805qzqGABMum1ttaoklG0GKt+j7aCvdwVjxwqzhMMDkkFzKfxBXtCC/o+MVv8bnQRm1jtgZqqQMaWrXzbd1e8XSFRov3/GMU4VSLnimdYagCQRarDcCTb7qU9HgvTXTgaIowg7apcp2N247NAOHrbwl042m0xY4zKS7Flx27WLmUXL41RopN29h0HK68joyyGV+u8JMhz+45yzaxLaq98WvNXjVFNPaQ2YvAuocMc4cf4BPj8yewXdXbb031kjFxp8x5TNsR1xuL8ODojVMZFAsYOBZ2rjA6PhFgnXZfZDn1xwceb69Nt/1mNQIo6tAkn3ZlDdXCrpozOZf+pytBAPrp5dGDllABuBXBbAIK3ls1SIGLB4BBK45Rx0xP7+/q5oh0TsFa1WpYM8ynYFpyGKy6Ax6PXIkBV4CJZwsNScTxcnz4mbQnYWxIdS5nCbjAsd2XaIltxU71+c+azvQGT099cqYU=
+
+
