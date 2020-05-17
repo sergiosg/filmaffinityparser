@@ -55,6 +55,27 @@ public class SpringBootAppTest {
         verify(parserService).parseFolder(args[0]);
     }
 
+    @DisplayName("Test missing args")
+    @Test
+    void errorMessage_when_missing_args() throws Exception {
+
+        app.run();
+
+        assertEquals(SpringBootApp.EXPECTED_ARGUMENT +  System.lineSeparator(),
+                outContent.toString());
+    }
+
+    @DisplayName("Too many arguments")
+    @Test
+    void errorMessage_when_too_many_args() throws Exception {
+
+        String args[] = {"1", "2"};
+        app.run(args);
+
+        assertEquals(SpringBootApp.TOO_MANY_ARGUMENTS +  System.lineSeparator(),
+                outContent.toString());
+    }
+
     @DisplayName("Test Empty arg")
     @ParameterizedTest
     @NullAndEmptySource
