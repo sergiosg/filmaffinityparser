@@ -14,7 +14,7 @@ cache:
   - "$HOME/.gradle/caches"
   - "$HOME/.gradle/wrapper"
 script:
-- "./gradlew test sonarqube build --stacktrace"
+- "./gradlew test build --stacktrace"
 
 addons:
   sonarcloud:
