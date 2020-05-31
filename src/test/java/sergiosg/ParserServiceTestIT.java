@@ -11,7 +11,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 
-public class ParserServiceTestIT {
+class ParserServiceTestIT {
 
     ParserService parserService = new ParserService();
 
@@ -27,12 +27,12 @@ public class ParserServiceTestIT {
     }
 
     @Test
-    public void shouldParseFolder() throws NoSuchFileException {
+    void shouldParseFolder() throws NoSuchFileException {
         parserService.parseFolder("src/test/resources/");
     }
 
     @Test
-    public void shouldParseMovie(){
+    void shouldParseMovie(){
 
         Movie movie = parserService.parse(BAD_BOYS_MOVIE_HTML);
 
