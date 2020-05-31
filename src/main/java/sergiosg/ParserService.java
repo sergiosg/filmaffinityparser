@@ -87,8 +87,10 @@ public class ParserService {
         try {
             record = new ProducerRecord(KafkaProducerConfig.TOPIC, mapper.writeValueAsString(movie));
             RecordMetadata metadata = producer.send(record).get();
-            logger.info("Record sent with title " + movie.getTitle() + " to partition " + metadata.partition()
-                    + " with offset " + metadata.offset());
+            logger.info("Record sent with title {}  to partition {} with offset {}",
+                    movie.getTitle(),
+                    metadata.partition(),
+                    metadata.offset());
         } catch (ExecutionException e) {
             logger.error("Error in sending record", e);
         } catch (InterruptedException e) {
