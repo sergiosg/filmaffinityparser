@@ -25,7 +25,7 @@ public class ParserService {
 
         Path folderPath = Paths.get(folder);
 
-        logger.info( "Parsing folder: {0} ", folderPath);
+        logger.info( "Parsing folder: %s", folderPath);
         try (Stream<Path> paths = Files.walk(folderPath)) {
             paths
                 .filter(Files::isRegularFile)
@@ -35,7 +35,7 @@ public class ParserService {
                     try {
                         return Optional.of(Files.readString(p));
                     } catch (IOException e) {
-                        logger.error("Error reading file: {0} ", p);
+                        logger.error("Error reading file: %s ", p);
                         return Optional.empty();
                     }
                 })
@@ -78,6 +78,6 @@ public class ParserService {
     }
 
     protected void send(Movie movie){
-        logger.info("Sending to queue movie: {0} ", movie.getTitle());
+        logger.info("Sending to queue movie: %s ", movie.getTitle());
     }
 }
