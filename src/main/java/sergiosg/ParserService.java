@@ -78,6 +78,6 @@ public class ParserService {
     }
 
     protected void send(Movie movie){
-        logger.info("Sending to queue movie: %s ", movie.getTitle());
+        logger.info("Sending to queue movie: {} ", movie.getTitle());
     }
 }
