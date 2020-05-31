@@ -14,14 +14,12 @@ cache:
   - "$HOME/.gradle/caches"
   - "$HOME/.gradle/wrapper"
 script:
-- "./gradlew test build --stacktrace"
+  - "./gradlew test jacocoTestCoverageVerification sonarqube build --stacktrace"
 
 addons:
   sonarcloud:
     organization: "sergiosg"
     token:
-      secure: "**************************" # encrypted value of your token
-dd:
-  secure: tg3CtWa1wsj3gBva8ALXzvkexO62IQAitM6fce2z7z/ikuSrsG9xCDQk7dgsDwcTiksWjvTS2H4swjSkAJclCkcvore/H1QXQLJNinBjCrR7K5EKBEv3V0bfRs9Ak3sjgY8rwU75hkFTCdsGjq/X8AYbgX+KArKFNHrM9oFUgkvxFAC7KPNPgivG1KBa1mRYfgADb2DPkae35Lz805qzqGABMum1ttaoklG0GKt+j7aCvdwVjxwqzhMMDkkFzKfxBXtCC/o+MVv8bnQRm1jtgZqqQMaWrXzbd1e8XSFRov3/GMU4VSLnimdYagCQRarDcCTb7qU9HgvTXTgaIowg7apcp2N247NAOHrbwl042m0xY4zKS7Flx27WLmUXL41RopN29h0HK68joyyGV+u8JMhz+45yzaxLaq98WvNXjVFNPaQ2YvAuocMc4cf4BPj8yewXdXbb031kjFxp8x5TNsR1xuL8ODojVMZFAsYOBZ2rjA6PhFgnXZfZDn1xwceb69Nt/1mNQIo6tAkn3ZlDdXCrpozOZf+pytBAPrp5dGDllABuBXBbAIK3ls1SIGLB4BBK45Rx0xP7+/q5oh0TsFa1WpYM8ynYFpyGKy6Ax6PXIkBV4CJZwsNScTxcnz4mbQnYWxIdS5nCbjAsd2XaIltxU71+c+azvQGT099cqYU=
+      secure: "CRjzXzeZl796fmMF/glg0OWxqY1wIqFK667WDRzLBispQZbdND7EOp/oEPRO0bb4gK6rgGNTVMTfFWkZQU75JJ/jvKK/a6YvxS/9NLmzXn6pLe1eIpVg7ynoshYjYRryDOhnuAxDiSb8SfJpT8nppsCgyvAGhYVJDuM/hhvK/GjRr3Pu+FacTf9LbNarjlta+/NgWVg5rii10DdeM9QEEiTOqZ+O03rNXSmbzxxAtCy3/SfV61yIGMmKd/Wlft+dxxSdb7wQqT/5g6xIz5WPb/TgD3yYrAfe2iLseBQrYijgeUZROMqEtYBH2Dkar5HVK9VQR2vtQHyxPufzZzzinyjTvAwbnRvuvqfNH31ou9lNSpxfH5qBMZh0AlqhH0ABzM6rpO1JSXDP4JpOgvej+euWdu85pcvxM9NRk1Xjl602xQT9136IH8bQcXhOxdfhR50a4iymRkoA9GiTa74xVkfwvtim+hi4gooVNqGwpCYug1TQrTj/TvwqMCW+nzCk40Fscvhe4kjxCYPHv6JfCgPwVvVmZpqOYwdB1oLoAyXXWKuLIfFmhc5jJhD1PsZfyNqnG7wrID3eZ50Q5Xy+AegO/2bLK70ONC1m4P6pGCpTEGg8Rmz32LDZrcEDDcD8PQUf1HuSiOJlW+TflMtUvfIhDWJiGG1uyI7iyEX8OlI="
 
 
