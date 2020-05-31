@@ -44,20 +44,8 @@ public class ParserService {
                 .filter(Files::isRegularFile)
                 .filter(path ->
                         path.getFileName().toString().startsWith("film") && path.getFileName().toString().endsWith(".html"))
-<<<<<<< HEAD
-                .map(p -> {
-                    try {
-                        return Optional.of(Files.readString(p));
-                    } catch (IOException e) {
-                        logger.error("Error reading file: {} ", p);
-                        return Optional.empty();
-                    }
-                })
-                .map(movie ->  parse(((Optional<String>)movie).get()))
-=======
                 .map(this::getFileContent)
                 .map(this::toMovie)
->>>>>>> :sparkles: Send processed movies to queue
                 .forEach(this::send);
         }
         catch (NoSuchFileException fe){
@@ -94,25 +82,7 @@ public class ParserService {
     }
 
     protected void send(Movie movie){
-<<<<<<< HEAD
-        logger.info("Sending to queue movie: {} ", movie.getTitle());
-=======
-
-        logger.info("Sending movie to queue. Title: " + movie.getTitle());
-
-        final ProducerRecord<Long, String> record;
-        try {
-            record = new ProducerRecord(KafkaProducerConfig.TOPIC, mapper.writeValueAsString(movie));
-            RecordMetadata metadata = producer.send(record).get();
-            logger.info("Record sent with title " + movie.getTitle() +" to partition " + metadata.partition()
-                    + " with offset " + metadata.offset());
-        } catch (ExecutionException e) {
-            logger.error("Error in sending record", e);
-        } catch (InterruptedException e) {
-            logger.error("Error in sending record", e);
-        } catch (JsonProcessingException e) {
-            logger.error("Movie can not be serialized", e);
-        }
+        logger.info("Sending to queue movie: " + movie.getTitle());
     }
 
     private Optional<String> getFileContent(Path p) {
@@ -126,6 +96,5 @@ public class ParserService {
 
     private Movie toMovie(Optional<String> fileContent){
         return toMovie(fileContent.get());
->>>>>>> :sparkles: Send processed movies to queue
     }
 }
