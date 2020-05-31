@@ -34,22 +34,21 @@ public class ParserService {
     @Autowired
     private ObjectMapper mapper;
 
-    public void parseFolder( String folder ) throws NoSuchFileException {
+    public void parseFolder(String folder) throws NoSuchFileException {
 
         Path folderPath = Paths.get(folder);
 
-        logger.info( "Parsing folder: {}", folderPath);
+        logger.info("Parsing folder: {}", folderPath);
         try (Stream<Path> paths = Files.walk(folderPath)) {
             paths
-                .filter(Files::isRegularFile)
-                .filter(path ->
-                        path.getFileName().toString().startsWith("film") && path.getFileName().toString().endsWith(".html"))
-                .map(this::getFileContent)
-                .map(this::toMovie)
-                .forEach(this::send);
-        }
-        catch (NoSuchFileException fe){
-           throw fe;
+                    .filter(Files::isRegularFile)
+                    .filter(path ->
+                            path.getFileName().toString().startsWith("film") && path.getFileName().toString().endsWith(".html"))
+                    .map(this::getFileContent)
+                    .map(this::toMovie)
+                    .forEach(this::send);
+        } catch (NoSuchFileException fe) {
+            throw fe;
         } catch (IOException e) {
             logger.error(e.getLocalizedMessage(), e);
         }
@@ -81,9 +80,24 @@ public class ParserService {
         return result;
     }
 
-    protected void send(Movie movie){
-        logger.info("Sending to queue movie: " + movie.getTitle());
+    protected void send(Movie movie) {
+        logger.info("Sending movie to queue. Title: {}", movie.getTitle());
+
+        final ProducerRecord<Long, String> record;
+        try {
+            record = new ProducerRecord(KafkaProducerConfig.TOPIC, mapper.writeValueAsString(movie));
+            RecordMetadata metadata = producer.send(record).get();
+            logger.info("Record sent with title " + movie.getTitle() + " to partition " + metadata.partition()
+                    + " with offset " + metadata.offset());
+        } catch (ExecutionException e) {
+            logger.error("Error in sending record", e);
+        } catch (InterruptedException e) {
+            logger.error("Error in sending record", e);
+        } catch (JsonProcessingException e) {
+            logger.error("Movie can not be serialized", e);
+        }
     }
+
 
     private Optional<String> getFileContent(Path p) {
         try {
