@@ -25,7 +25,7 @@ public class ParserService {
 
         Path folderPath = Paths.get(folder);
 
-        logger.info( "Parsing folder: %s", folderPath);
+        logger.info( "Parsing folder: {}", folderPath);
         try (Stream<Path> paths = Files.walk(folderPath)) {
             paths
                 .filter(Files::isRegularFile)
@@ -35,7 +35,7 @@ public class ParserService {
                     try {
                         return Optional.of(Files.readString(p));
                     } catch (IOException e) {
-                        logger.error("Error reading file: %s ", p);
+                        logger.error("Error reading file: {} ", p);
                         return Optional.empty();
                     }
                 })
