@@ -38,7 +38,7 @@ public class SpringBootApp implements CommandLineRunner {
         }
         else {
             try {
-                service.parseFolder(args[0]);
+                service.processFolder(args[0]);
             }
             catch (NoSuchFileException nfe){
                 System.err.println(UNEXISTING_FOLDER);

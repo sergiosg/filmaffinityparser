@@ -34,7 +34,7 @@ public class ParserService {
     @Autowired
     private ObjectMapper mapper;
 
-    public void parseFolder(String folder) throws NoSuchFileException {
+    public void processFolder(String folder) throws NoSuchFileException {
 
         Path folderPath = Paths.get(folder);
 
@@ -87,7 +87,7 @@ public class ParserService {
         try {
             record = new ProducerRecord(KafkaProducerConfig.TOPIC, mapper.writeValueAsString(movie));
             RecordMetadata metadata = producer.send(record).get();
-            logger.info("Record sent with title {}  to partition {} with offset {}",
+            logger.info("Record sent with title {} to partition {} with offset {}",
                     movie.getTitle(),
                     metadata.partition(),
                     metadata.offset());

@@ -48,11 +48,11 @@ class SpringBootAppTest {
 
         String args[] = {"myFolder"};
 
-        doNothing().when(parserService).parseFolder(any(String.class));
+        doNothing().when(parserService).processFolder(any(String.class));
 
         app.run(args);
 
-        verify(parserService).parseFolder(args[0]);
+        verify(parserService).processFolder(args[0]);
     }
 
     @DisplayName("Test missing args")
@@ -98,7 +98,7 @@ class SpringBootAppTest {
 
         doThrow(NoSuchFileException.class)
                 .when(parserService)
-                .parseFolder(args[0]);
+                .processFolder(args[0]);
 
         app.run(args);
 

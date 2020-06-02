@@ -31,8 +31,10 @@ class ParserServiceTestIT {
     }
 
     @Test
-    void shouldParseFolder() throws NoSuchFileException {
-        parserService.parseFolder("src/test/resources/");
+    void shouldProcessFolder() throws NoSuchFileException, InterruptedException {
+        parserService.processFolder("src/test/resources/");
+        Thread.sleep(1000l);
+
     }
 
     @Test
