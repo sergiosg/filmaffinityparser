@@ -2,10 +2,12 @@ package sergiosg;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.ClassRule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.kafka.test.rule.EmbeddedKafkaRule;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +20,10 @@ class ParserServiceTestIT {
 
     @Autowired
     ParserService parserService;
+
+    @ClassRule
+    public static EmbeddedKafkaRule embeddedKafka =
+            new EmbeddedKafkaRule(1, true, KafkaProducerConfig.TOPIC);
 
     private static String BAD_BOYS_MOVIE_HTML;
 
